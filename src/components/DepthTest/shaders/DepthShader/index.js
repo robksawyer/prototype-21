@@ -51,14 +51,14 @@ const DepthShader = {
       void main() {
         float depth = texture( depthTexture, vUv ).x;
         vec3 worldPosition = worldCoordinatesFromDepth(depth);
-        float radius = mod(0.1 * time * 10.0, 3.0);
+        float radius = mod(0.1 * time * 1.5, 3.0);
   
         if (
           sphereSDF(worldPosition, radius) < 0.0 && 
           sphereSDF(worldPosition, radius) > -1.0
         ) {
-          vec3 color = fract(vec3(1.0) - abs(worldPosition));
-          color *= smoothstep(0.0, 1.0, pow(sin(color.z * 1.5), time * 2.5));
+          vec3 color = fract(vec3(1.0) - abs(radius * worldPosition));
+          color *= smoothstep(vec3(radius), vec3(sin(color.z * 1.5)), vec3(0.5));
           gl_FragColor = vec4(color, 1.0);
         } else {
           vec3 sceneColor = texture(tDiffuse, vUv).xyz;

@@ -53,10 +53,10 @@ export default function Model(props) {
           <meshStandardMaterial map={texture} map-flipY={false} skinning />
         </skinnedMesh>
       </group>
-      <a.mesh receiveShadow position={[0, 1, -1]} scale={scale}>
+      {/* <a.mesh receiveShadow position={[0, 1, -1]} scale={scale}>
         <planeGeometry args={[64, 64]} />
         <a.meshStandardMaterial color={color} />
-      </a.mesh>
+      </a.mesh> */}
     </group>
   );
 }

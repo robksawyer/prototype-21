@@ -58,7 +58,11 @@ const DepthTest = ({
                 </Html>
               }
             >
-              <Model />
+              {/* <Model /> */}
+              <mesh receiveShadow position={[0, 0, 0]}>
+                <sphereGeometry args={[1, 12, 32]} />
+                <meshStandardMaterial color={0x00ff00} />
+              </mesh>
             </React.Suspense>
           </group>
           <Effects />
