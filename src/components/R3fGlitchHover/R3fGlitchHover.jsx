@@ -9,21 +9,7 @@ import { useSpring, animated, config } from '@react-spring/three';
 
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
-import {
-  // useHelper,
-  Html,
-  useTexture,
-  // OrbitControls,
-  // Stats,
-} from '@react-three/drei';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-// import * as STDLIB from 'three-stdlib';
-// Enabled for effects
-// import {
-//   EffectComposer,
-//   // Bloom,
-//   // ChromaticAberration,
-// } from '@react-three/postprocessing'
+import { Html, useTexture } from '@react-three/drei';
 
 import styles from './R3fGlitchHover.module.css';
 
@@ -35,12 +21,7 @@ import { GlitchHoverShader } from './shaders/glitchHover';
 function Image({ url, ...props }) {
   const [hovered, setHover] = React.useState(false);
 
-  // const [texture] = useTexture([url]);
-  // const textureLoader = new THREE.TextureLoader();
-  const [texture] = React.useMemo(() => {
-    const loader = new THREE.TextureLoader();
-    return [loader.load(url)];
-  }, [url]);
+  const [texture] = useTexture([url]);
 
   // const x = useMotionValue(0)
   // const hoverValue = useTransform(x, v => v / 100)
@@ -92,7 +73,6 @@ const R3fGlitchHover = ({
       onMouseMove={({ clientX, clientY }) => {
         const x = (clientX / window.innerWidth) * 2 - 1;
         const y = -(clientY / window.innerHeight) * 2 + 1;
-
         set({
           pos: [x, 0, 0],
           scale: [1 - y * 0.1, 1 - y * 0.1, 1],
