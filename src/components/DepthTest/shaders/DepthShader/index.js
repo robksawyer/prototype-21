@@ -30,12 +30,6 @@ const DepthShader = {
         vec4 worldSpaceCoordinates = viewMatrixInverse * viewSpaceCoordinate;
         return worldSpaceCoordinates.xyz;
       }
-
-      float sdTriPrism( vec3 p, vec2 h )
-      {
-          vec3 q = abs(p);
-          return max(q.z-h.y,max(q.x*0.866025+p.y*0.5,-p.y)-h.x*0.5);
-      }
   
       float sphereSDF(vec3 p, float radius) {
         return length(p) - radius;
@@ -44,11 +38,14 @@ const DepthShader = {
       void main() {
         float depth = texture( depthTexture, vUv ).x;
         vec3 worldPosition = worldCoordinatesFromDepth(depth);
-        float radius = mod(0.31 * time * 10.0, 3.0);
+        float radius = mod(0.1 * time * 10.0, 3.0);
   
-        if (sdTriPrism(worldPosition, vec2(radius, radius * .25)) < 0.0 && sdTriPrism(worldPosition, vec2(radius, radius * .25)) > -1.0) {
-          vec3 wacky = mix(vec3(1.0,0.0,0.0),texture(tDiffuse, vUv).xyz, abs(sin(time * 0.25)));
-          gl_FragColor = vec4(wacky,1.0);
+        if (
+          sphereSDF(worldPosition, radius) < 0.0 && 
+          sphereSDF(worldPosition, radius) > -1.0
+        ) {
+          vec3 color = fract(vec3(1.0) - abs(worldPosition));
+          gl_FragColor = vec4(color,1.0); // pink
         } else {
           vec3 sceneColor = texture(tDiffuse, vUv).xyz;
           gl_FragColor = vec4(sceneColor, 1.0);
