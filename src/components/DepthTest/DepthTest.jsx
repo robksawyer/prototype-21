@@ -58,16 +58,16 @@ const DepthTest = ({
                 </Html>
               }
             >
-              {/* <Model /> */}
-              <mesh receiveShadow position={[0, 0, 0]}>
+              <Model />
+              {/* <mesh receiveShadow position={[0, 0, 5]}>
                 <sphereGeometry args={[1, 12, 32]} />
                 <meshStandardMaterial color={0x00ff00} />
-              </mesh>
+              </mesh> */}
             </React.Suspense>
           </group>
           <Effects />
-          <OrbitControls />
-          <gridHelper args={[30, 30, 30]} />
+          {/* <OrbitControls /> */}
+          {/* <gridHelper args={[30, 30, 30]} /> */}
         </Canvas>
       </ErrorBoundary>
     </Tag>
