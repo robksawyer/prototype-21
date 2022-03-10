@@ -34,7 +34,7 @@ const Effects = () => {
     composer.current.setSize(size.width, size.height);
   }, [size]);
 
-  useFrame(({ gl, clock }) => {
+  useFrame(({ gl, clock, mouse }) => {
     gl.setRenderTarget(target);
     gl.render(scene, camera);
 
@@ -44,6 +44,7 @@ const Effects = () => {
         camera.projectionMatrixInverse;
       ref.current.uniforms['viewMatrixInverse'].value = camera.matrixWorld;
       ref.current.uniforms['time'].value = clock.elapsedTime;
+      ref.current.uniforms['iMouse'].value = mouse;
     }
     composer.current.render();
   }, 1);
