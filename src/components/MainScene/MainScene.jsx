@@ -1,11 +1,11 @@
 /**
  * @file MainScene.js
  */
-import * as React from 'react'
-import PropTypes from 'prop-types'
-import useErrorBoundary from 'use-error-boundary'
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import useErrorBoundary from 'use-error-boundary';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 
 // Enabled for effects
 // import {
@@ -14,23 +14,23 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 //   // ChromaticAberration,
 // } from '@react-three/postprocessing'
 
-import * as THREE from 'three'
+import * as THREE from 'three';
 import {
   useHelper,
   Html,
   useTexture,
   OrbitControls,
   Stats,
-} from '@react-three/drei'
+} from '@react-three/drei';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import * as STDLIB from 'three-stdlib'
+import * as STDLIB from 'three-stdlib';
 
-import styles from './MainScene.module.css'
+import styles from './MainScene.module.css';
 
-import Loader from '@/components/Loader'
+import Loader from '@/components/Loader';
 
 // Shader stack
-import './shaders/defaultShaderMaterial'
+import './shaders/defaultShaderMaterial';
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -64,46 +64,48 @@ import './shaders/defaultShaderMaterial'
 //   return <EffectComposer></EffectComposer>
 // }
 
-const ENABLE_HELPERS = 1
+const ENABLE_HELPERS = 1;
 
 const Scene = () => {
-  const mesh = React.useRef()
-  const { scene, size } = useThree()
-  const group = React.useRef()
+  const mesh = React.useRef();
+  const { scene, size } = useThree();
+  const group = React.useRef();
 
-  const spotLight = React.useRef()
-  const pointLight = React.useRef()
+  const spotLight = React.useRef();
+  const pointLight = React.useRef();
 
   // Texture loading example
-  const texture = useTexture('/3d/textures/checkerboard.jpg')
+  const texture = useTexture('/3d/textures/checkerboard.jpg');
   // const texture = useLoader(
   //   THREE.TextureLoader,
   //   '/3d/textures/checkerboard.jpg'
   // )
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
   useFrame(({ clock, mouse }) => {
-    mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.position.x = Math.sin(clock.elapsedTime)
-    mesh.current.position.z = Math.sin(clock.elapsedTime)
-    group.current.rotation.y += 0.02
+    mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4;
+    mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4;
+    mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4;
+    mesh.current.position.x = Math.sin(clock.elapsedTime);
+    mesh.current.position.z = Math.sin(clock.elapsedTime);
+    group.current.rotation.y += 0.02;
 
-    mesh.current.material.uniforms.iTime.value = clock.getElapsedTime()
+    mesh.current.material.uniforms.iTime.value = clock.getElapsedTime();
     mesh.current.material.uniforms.iMouse.value = new THREE.Vector2(
       mouse.x,
-      mouse.y
-    )
-  })
+      mouse.y,
+    );
+  });
 
-  React.useEffect(() => void (spotLight.current.target = mesh.current), [scene])
-  if (ENABLE_HELPERS) {
-    useHelper(spotLight, THREE.SpotLightHelper, 'teal')
-    useHelper(pointLight, THREE.PointLightHelper, 0.5, 'hotpink')
-    useHelper(mesh, THREE.BoxHelper, '#272740')
-    useHelper(mesh, STDLIB.VertexNormalsHelper, 1, '#272740')
-  }
+  React.useEffect(
+    () => void (spotLight.current.target = mesh.current),
+    [scene],
+  );
+
+  useHelper(spotLight, THREE.SpotLightHelper, 'teal');
+  useHelper(pointLight, THREE.PointLightHelper, 0.5, 'hotpink');
+  useHelper(mesh, THREE.BoxHelper, '#272740');
+  useHelper(mesh, STDLIB.VertexNormalsHelper, 1, '#272740');
 
   return (
     <>
@@ -151,14 +153,14 @@ const Scene = () => {
         <shadowMaterial attach="material" opacity={0.5} />
       </mesh>
     </>
-  )
-}
+  );
+};
 
 const MainScene = ({
   className = 'fixed top-0 left-0 w-screen h-screen',
   variant = 'default',
 }) => {
-  const { ErrorBoundary, didCatch, error } = useErrorBoundary()
+  const { ErrorBoundary, didCatch, error } = useErrorBoundary();
 
   return (
     <main
@@ -180,9 +182,9 @@ const MainScene = ({
           shadowMap
           camera={{ position: [-5, 5, 5] }}
           onCreated={({ gl }) => {
-            gl.physicallyCorrectLights = true
+            gl.physicallyCorrectLights = true;
             // gl.toneMapping = THREE.ACESFilmicToneMapping
-            gl.outputEncoding = THREE.sRGBEncoding
+            gl.outputEncoding = THREE.sRGBEncoding;
           }}
           style={{
             background: '#5865F2',
@@ -205,12 +207,12 @@ const MainScene = ({
         </Canvas>
       </ErrorBoundary>
     </main>
-  )
-}
+  );
+};
 
 MainScene.propTypes = {
   className: PropTypes.string,
   variant: PropTypes.oneOf(['default']),
-}
+};
 
-export default MainScene
+export default MainScene;
