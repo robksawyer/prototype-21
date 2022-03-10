@@ -35,6 +35,18 @@ const DepthShader = {
       float sphereSDF(vec3 p, float radius) {
         return length(p) - radius;
       }
+
+      float sdHexPrism( vec3 p, vec2 h )
+      {
+          vec3 q = abs(p);
+          return max(q.z-h.y,max((q.x*0.866025+q.y*0.5),q.y)-h.x);
+      }
+
+      float sdPlane( vec3 p, vec4 n )
+      {
+        // n must be normalized
+        return dot(p,n.xyz) + n.w;
+      }
       
       void main() {
         float depth = texture( depthTexture, vUv ).x;
@@ -46,8 +58,8 @@ const DepthShader = {
           sphereSDF(worldPosition, radius) > -1.0
         ) {
           vec3 color = fract(vec3(1.0) - abs(worldPosition));
-          color *= smoothstep(0.0, 1.0, pow(sin(color.z * 1.5), time * 0.03));
-          gl_FragColor = vec4(color,1.0); // pink
+          color *= smoothstep(0.0, 1.0, pow(sin(color.z * 1.5), time * 2.5));
+          gl_FragColor = vec4(color, 1.0);
         } else {
           vec3 sceneColor = texture(tDiffuse, vUv).xyz;
           gl_FragColor = vec4(sceneColor, 1.0);
