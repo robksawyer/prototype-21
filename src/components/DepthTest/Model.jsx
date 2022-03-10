@@ -54,7 +54,7 @@ export default function Model(props) {
         </skinnedMesh>
       </group>
       <a.mesh receiveShadow position={[0, 1, -1]} scale={scale}>
-        <circleGeometry args={[1, 64]} />
+        <planeGeometry args={[64, 64]} />
         <a.meshStandardMaterial color={color} />
       </a.mesh>
     </group>

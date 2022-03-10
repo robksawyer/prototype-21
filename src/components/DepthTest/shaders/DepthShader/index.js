@@ -16,7 +16,6 @@ const DepthShader = {
     `,
   fragmentShader: `
       uniform float time;
-      uniform vec2 iMouse;
       uniform sampler2D tDiffuse;
       uniform sampler2D depthTexture;
       varying vec2 vUv;
@@ -36,13 +35,6 @@ const DepthShader = {
       float sphereSDF(vec3 p, float radius) {
         return length(p) - radius;
       }
-
-      float sdCapsule( vec3 p, vec3 a, vec3 b, float r )
-      {
-          vec3 pa = p - a, ba = b - a;
-          float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
-          return length( pa - ba*h ) - r;
-      }
       
       void main() {
         float depth = texture( depthTexture, vUv ).x;
@@ -50,10 +42,11 @@ const DepthShader = {
         float radius = mod(0.1 * time * 10.0, 3.0);
   
         if (
-          sphereSDF(worldPosition, smoothstep(iMouse.x / iMouse.y, vUv.y, time) * 2.5) < 0.0 && 
-          sphereSDF(worldPosition, smoothstep(iMouse.y / iMouse.x, vUv.y, time)) > -1.0
+          sphereSDF(worldPosition, radius) < 0.0 && 
+          sphereSDF(worldPosition, radius) > -1.0
         ) {
           vec3 color = fract(vec3(1.0) - abs(worldPosition));
+          color *= smoothstep(0.0, 1.0, pow(sin(color.z * 1.5), time * 0.03));
           gl_FragColor = vec4(color,1.0); // pink
         } else {
           vec3 sceneColor = texture(tDiffuse, vUv).xyz;
