@@ -16,7 +16,7 @@ import styles from './R3fGlitchHover.module.css';
 import Loader from '@/components/Loader';
 
 // Shader stack
-import { GlitchHoverShader } from './shaders/glitchHover';
+import { GlitchHoverShader } from './shaders/GlitchHoverShader';
 
 function Image({ url, ...props }) {
   const [hovered, setHover] = React.useState(false);

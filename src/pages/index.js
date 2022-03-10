@@ -3,10 +3,13 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import styles from '../styles/Home.module.css';
 
-// const MainScene = dynamic(() => import('@/components/MainScene'), {
+// const R3fGlitchHover = dynamic(() => import('@/components/R3fGlitchHover'), {
 //   ssr: false,
 // });
-const R3fGlitchHover = dynamic(() => import('@/components/R3fGlitchHover'), {
+// const R3fGooHover = dynamic(() => import('@/components/R3fGooHover'), {
+//   ssr: false,
+// });
+const DepthTest = dynamic(() => import('@/components/DepthTest'), {
   ssr: false,
 });
 import HamburgerMenu from '@/components/HamburgerMenu';
@@ -26,8 +29,9 @@ export default function Home() {
       </Head>
       <HamburgerMenu />
       <main className={`${styles.main} flex flex-grow flex-col`}>
-        {/* <MainScene /> */}
-        <R3fGlitchHover />
+        {/* <R3fGlitchHover /> */}
+        {/* <R3fGooHover /> */}
+        <DepthTest />
       </main>
 
       <footer
